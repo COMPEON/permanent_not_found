@@ -2,31 +2,16 @@ require "permanent_not_found/version"
 require "set"
 
 class PermanentNotFound
-  BLOCKED_ROUTES = Set.new(
-    %w[
-      /.git/head
-      /.well-known/apple-app-site-association
-      /.well-known/assetlinks.json
-      /apple-app-site-association
-      /autodiscover/autodiscover.xml
-      /browserconfig.xml
-      /mysqldumper
-      /phpmyadmin
-      /wordpress/wp-login.php
-      /wp-content/plugins/woocommerce/i18n/locale-info.php
-      /wp-login.php
-    ]
-  ).freeze
-
   CONTENT = '404 Not Found'.freeze
 
-  def initialize(app, content: CONTENT)
+  def initialize(app, content: CONTENT, paths: [])
     @app = app
     @content = content
+    @paths = Set.new(paths)
   end
 
   def call(env)
-    if BLOCKED_ROUTES.include?(env['PATH_INFO'].downcase)
+    if @paths.include?(env['PATH_INFO'].downcase)
       response
     else
       @app.call(env)
