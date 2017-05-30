@@ -21,7 +21,7 @@ class PermanentNotFound
   CONTENT = '404 Not Found'
   NOT_FOUND_RESPONSE = [
     404, { 'Content-Type' => 'text/html', 'Content-Length' => CONTENT.size.to_s }, [CONTENT]
-  ].freeze
+  ]
 
   def initialize(app)
     @app = app
