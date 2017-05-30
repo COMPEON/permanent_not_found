@@ -18,20 +18,24 @@ class PermanentNotFound
     ]
   ).freeze
 
-  CONTENT = '404 Not Found'
-  NOT_FOUND_RESPONSE = [
-    404, { 'Content-Type' => 'text/html', 'Content-Length' => CONTENT.size.to_s }, [CONTENT]
-  ]
+  CONTENT = '404 Not Found'.freeze
 
-  def initialize(app)
+  def initialize(app, content: CONTENT)
     @app = app
+    @content = content
   end
 
   def call(env)
     if BLOCKED_ROUTES.include?(env['PATH_INFO'].downcase)
-      NOT_FOUND_RESPONSE
+      response
     else
       @app.call(env)
     end
+  end
+
+  private
+
+  def response
+    [404, { 'Content-Type' => 'text/html', 'Content-Length' => @content.size.to_s }, [@content]]
   end
 end

@@ -27,7 +27,7 @@ Or install it yourself as:
 require 'rack/lobster'
 require 'permanent_not_found'
 
-use PermanentNotFound
+use PermanentNotFound, content: '404 Not Found'
 run Rack::Lobster.new
 ```
 
@@ -36,7 +36,8 @@ run Rack::Lobster.new
 ```
 # config/application.rb
 require 'permanent_not_found'
-config.middleware.insert_before(Rack::Rewrite, PermanentNotFound)
+content = Rails.root.join('public', '404.html').read.freeze
+config.middleware.insert_before(Rack::Rewrite, PermanentNotFound, content: content)
 ```
 
 ## Development
