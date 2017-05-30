@@ -1,8 +1,6 @@
 # PermanentNotFound
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/permanent_not_found`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Tiny little Rack middleware to answer a configured set of path's with a HTTP 404.
 
 ## Installation
 
@@ -22,7 +20,24 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Rack
+
+```
+# config.ru
+require 'rack/lobster'
+require 'permanent_not_found'
+
+use PermanentNotFound
+run Rack::Lobster.new
+```
+
+### Rails
+
+```
+# config/application.rb
+require 'permanent_not_found'
+config.middleware.insert_before(Rack::Rewrite, PermanentNotFound)
+```
 
 ## Development
 
@@ -32,7 +47,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/Timo Schilling/permanent_not_found.
+Bug reports and pull requests are welcome on GitHub at https://github.com/COMPEON/permanent_not_found.
 
 
 ## License
