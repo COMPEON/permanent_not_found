@@ -37,7 +37,11 @@ run Rack::Lobster.new
 # config/application.rb
 require 'permanent_not_found'
 content = Rails.root.join('public', '404.html').read.freeze
-config.middleware.insert_before(Rack::Rewrite, PermanentNotFound, content: content, paths: ['/wp-content', '/phpmyadmin'])
+config.middleware.insert_before(
+  Rack::Rewrite, PermanentNotFound, content: content,
+  paths: ['/wp-content', '/phpmyadmin'],
+  pattern: [/^legacyroute\/.*/, /\.swf$/]
+)
 ```
 
 ## Development
